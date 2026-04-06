@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run Chat Color Manager Plugin",
+      "request": "launch",
+      "mainClass": "com.camjewell.ChatColorManagerPluginLauncher",
+      "vmArgs": "-ea",
+      "args": "--developer-mode",
+      "preLaunchTask": "gradle: testClasses"
+    }
+  ]
+}
