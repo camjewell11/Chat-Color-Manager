@@ -1,8 +1,10 @@
 package com.camjewell;
 
+import java.awt.Color;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("chatcolormanager")
 public interface ChatColorManagerConfig extends Config {
@@ -17,29 +19,32 @@ public interface ChatColorManagerConfig extends Config {
         return true;
     }
 
-    @ConfigItem(keyName = "mappingLines", name = "Color Remappings", description = "One mapping per line in format: RRGGBB=RRGGBB (example: FF0000=00FF00)")
+    @ConfigItem(keyName = "mappingLines", name = "Color Remappings", description = "One mapping per line. Hex format: RRGGBB=RRGGBB (e.g., FF0000=00FF00). Named colors: COLORNAME=COLORNAME (e.g., HIGHLIGHT=WARN)")
     default String mappingLines() {
         return "";
     }
 
-    @ConfigItem(keyName = "captureOriginalEnabled", name = "Capture Original Color", description = "Enable, then click an existing chat message to capture its color into Last Captured Original")
-    default boolean captureOriginalEnabled() {
+    @ConfigSection(name = "Add New Mapping", description = "Pick two colors using the eyedropper, then toggle Add Mapping to save", position = 10)
+    String addMappingSection = "addMappingSection";
+
+    @ConfigItem(keyName = "fromColor", name = "From Color", description = "Use the eyedropper to pick the original color from a chat message", section = "addMappingSection")
+    default Color fromColor() {
+        return Color.RED;
+    }
+
+    @ConfigItem(keyName = "toColor", name = "To Color", description = "Use the eyedropper to pick the replacement color", section = "addMappingSection")
+    default Color toColor() {
+        return Color.GREEN;
+    }
+
+    @ConfigItem(keyName = "addMapping", name = "Add Mapping", description = "Toggle on to append the From/To colors above as a new mapping", section = "addMappingSection")
+    default boolean addMapping() {
         return false;
     }
 
-    @ConfigItem(keyName = "lastCapturedOriginal", name = "Last Captured Original", description = "Auto-filled when Capture Original Color is enabled and you click an existing colored chat message")
-    default String lastCapturedOriginal() {
-        return "";
-    }
-
-    @ConfigItem(keyName = "captureNewEnabled", name = "Capture New Color", description = "Enable, then click an existing chat message to capture its color into Last Captured New")
-    default boolean captureNewEnabled() {
+    @ConfigItem(keyName = "showColorCodes", name = "Show Color Codes in Chat", description = "Appends the hex color code(s) found in each chat message so you can identify colors to remap")
+    default boolean showColorCodes() {
         return false;
-    }
-
-    @ConfigItem(keyName = "lastCapturedNew", name = "Last Captured New", description = "Auto-filled when Capture New Color is enabled and you click an existing colored chat message")
-    default String lastCapturedNew() {
-        return "";
     }
 
     @ConfigItem(keyName = "debugMode", name = "Debug Mode", description = "Log chat message interception details to console")
